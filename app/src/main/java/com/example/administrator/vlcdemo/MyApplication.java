@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class MyApplication extends Application {
 
     // media player
-    private static LibVLC libvlc =  null;
+    private static LibVLC libvlc = null;
     private static MediaPlayer mMediaPlayer = null;
 
     @Override
@@ -23,8 +23,8 @@ public class MyApplication extends Application {
         getMediaPlayer();
     }
 
-    public LibVLC getLibvlc(){
-        if(libvlc == null){
+    public LibVLC getLibvlc() {
+        if (libvlc == null) {
             ArrayList<String> options = new ArrayList<String>();
             //options.add("--subsdec-encoding <encoding>");
             options.add("--aout=opensles");
@@ -35,8 +35,8 @@ public class MyApplication extends Application {
         return libvlc;
     }
 
-    public MediaPlayer getMediaPlayer(){
-        if(mMediaPlayer == null){
+    public MediaPlayer getMediaPlayer() {
+        if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer(getLibvlc());
         }
         return mMediaPlayer;

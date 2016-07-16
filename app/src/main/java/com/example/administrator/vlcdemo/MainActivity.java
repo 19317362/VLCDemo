@@ -1,5 +1,6 @@
 package com.example.administrator.vlcdemo;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Environment;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MyApplication app;
     private String path;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void initViews(){
+    private void initViews() {
 //        path= Environment.getExternalStorageDirectory()
 //                .getAbsolutePath() + "/all_rise.mp3";
 
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             inputStream = am.open("all_rise.mp3");
             File file = createFileFromInputStream(inputStream);
-            path=file.getPath();
+            path = file.getPath();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -61,7 +63,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RadioButton radioAudio = (RadioButton)findViewById(R.id.radioAudio);
+        Button loadVideo = (Button) findViewById(R.id.btnVideo);
+        loadVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent IntVideo= new Intent(MainActivity.this,VideoActivity.class);
+                startActivity(IntVideo);
+            }
+        });
+
+        RadioButton radioAudio = (RadioButton) findViewById(R.id.radioAudio);
         radioAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 //                mAdapter.refresh();
             }
         });
-        RadioButton radioVideo = (RadioButton)findViewById(R.id.radioVideo);
+        RadioButton radioVideo = (RadioButton) findViewById(R.id.radioVideo);
         radioVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,11 +94,11 @@ public class MainActivity extends AppCompatActivity {
     private void playMediaAtPath(String path) {
         // To play with LibVLC, we need a media player object.
         // Let's get one, if needed.
-        app=(MyApplication)getApplication();
-        MediaPlayer mMediaPlayer=app.getMediaPlayer();
+        app = (MyApplication) getApplication();
+        MediaPlayer mMediaPlayer = app.getMediaPlayer();
 
         // Sanity check - make sure that the file exists.
-        if(!new File(path).exists()) {
+        if (!new File(path).exists()) {
             Toast.makeText(
                     MainActivity.this,
                     path + " does not exist!",
@@ -108,21 +119,21 @@ public class MainActivity extends AppCompatActivity {
 
     private File createFileFromInputStream(InputStream inputStream) {
 
-        try{
-            File f = new File(getCacheDir()+"/output.mp3");
+        try {
+            File f = new File(getCacheDir() + "/output.mp3");
             OutputStream outputStream = new FileOutputStream(f);
             byte buffer[] = new byte[1024];
             int length = 0;
 
-            while((length=inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer,0,length);
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
             }
 
             outputStream.close();
             inputStream.close();
 
             return f;
-        }catch (IOException e) {
+        } catch (IOException e) {
             //Logging exception
             e.printStackTrace();
         }
